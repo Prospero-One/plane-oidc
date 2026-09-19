@@ -10,6 +10,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_VERSION: v1.3.1-oidc-d2d6aeeb
+
 jobs:
   build-backend:
     name: Build Backend
@@ -33,8 +40,9 @@ jobs:
         with:
           context: ./apps/api
           file: ./apps/api/Dockerfile.api
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/jiyang1018/plane-backend-oidc:preview
+          tags: ghcr.io/prospero-one/plane-backend-oidc:${{ env.IMAGE_VERSION }}
           no-cache: true
 
   build-web:
@@ -59,8 +67,9 @@ jobs:
         with:
           context: .
           file: ./apps/web/Dockerfile.web
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/jiyang1018/plane-web-oidc:preview
+          tags: ghcr.io/prospero-one/plane-web-oidc:${{ env.IMAGE_VERSION }}
           no-cache: true
 
   build-admin:
@@ -85,8 +94,9 @@ jobs:
         with:
           context: .
           file: ./apps/admin/Dockerfile.admin
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/jiyang1018/plane-admin-oidc:preview
+          tags: ghcr.io/prospero-one/plane-admin-oidc:${{ env.IMAGE_VERSION }}
           no-cache: true
 
   build-space:
@@ -111,8 +121,9 @@ jobs:
         with:
           context: .
           file: ./apps/space/Dockerfile.space
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/jiyang1018/plane-space-oidc:preview
+          tags: ghcr.io/prospero-one/plane-space-oidc:${{ env.IMAGE_VERSION }}
           no-cache: true
 
   build-live:
@@ -137,6 +148,7 @@ jobs:
         with:
           context: .
           file: ./apps/live/Dockerfile.live
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/jiyang1018/plane-live-oidc:preview
+          tags: ghcr.io/prospero-one/plane-live-oidc:${{ env.IMAGE_VERSION }}
           no-cache: true
